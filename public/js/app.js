@@ -23195,7 +23195,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       'revealed': false,
-      'showGuidelines': true,
+      'showGuidelines': false,
       'users': [],
       'cards': [{
         points: 0.5,

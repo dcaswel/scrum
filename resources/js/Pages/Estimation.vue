@@ -98,7 +98,7 @@ export default defineComponent({
     data() {
         return {
             'revealed': false,
-            'showGuidelines': true,
+            'showGuidelines': false,
             'users': [],
             'cards': [
                 {
