@@ -75,7 +75,6 @@
 <script>
 import {defineComponent} from 'vue'
 import AppLayout from '@/Layouts/AppLayout.vue'
-import {Inertia} from "@inertiajs/inertia";
 
 export default defineComponent({
     components: {
@@ -129,7 +128,7 @@ export default defineComponent({
             ]
         }
     },
-    created() {
+    mounted() {
         Echo.join('team.' + this.team_id)
             .here(users => {
                 this.users = users.filter(user => user.id !== this.me.id);
@@ -147,10 +146,13 @@ export default defineComponent({
                     }
                 })
             })
-            .listen('ResetCards', e => {
+            .listen('ResetCards', () => {
                 this.clearPoints();
             })
-            .listenForWhisper('reveal', e => this.revealed = true);
+            .listenForWhisper('reveal', () => this.revealed = true);
+    },
+    unmounted() {
+        Echo.leave('team.' + this.team_id);
     },
     methods: {
         chooseCard(card) {

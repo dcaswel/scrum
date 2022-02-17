@@ -20688,8 +20688,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _Layouts_AppLayout_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Layouts/AppLayout.vue */ "./resources/js/Layouts/AppLayout.vue");
-/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
-
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
@@ -20734,7 +20732,7 @@ __webpack_require__.r(__webpack_exports__);
       }]
     };
   },
-  created: function created() {
+  mounted: function mounted() {
     var _this = this;
 
     Echo.join('team.' + this.team_id).here(function (users) {
@@ -20751,11 +20749,14 @@ __webpack_require__.r(__webpack_exports__);
           user.points = e.points;
         }
       });
-    }).listen('ResetCards', function (e) {
+    }).listen('ResetCards', function () {
       _this.clearPoints();
-    }).listenForWhisper('reveal', function (e) {
+    }).listenForWhisper('reveal', function () {
       return _this.revealed = true;
     });
+  },
+  unmounted: function unmounted() {
+    Echo.leave('team.' + this.team_id);
   },
   methods: {
     chooseCard: function chooseCard(card) {
