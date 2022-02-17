@@ -1198,9 +1198,6 @@ select {
 .flex-initial {
   flex: 0 1 auto;
 }
-.flex-shrink-0 {
-  flex-shrink: 0;
-}
 .shrink-0 {
   flex-shrink: 0;
 }
@@ -1340,9 +1337,6 @@ select {
 .truncate {
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.whitespace-nowrap {
   white-space: nowrap;
 }
 .break-all {
@@ -2355,3 +2349,5 @@ select {
   }
 }
 
+
+/*# sourceMappingURL=app.css.map*/
