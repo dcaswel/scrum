@@ -15,6 +15,14 @@
                             focus:ring-offset-2 focus:ring-indigo-500 mr-2"
                     >Runner
                     </a>
+                    <button
+                        @click="showGuidelines = true"
+                        type="button"
+                        class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-full
+                            text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2
+                            focus:ring-offset-2 focus:ring-indigo-500 mr-2"
+                    >Guidelines
+                    </button>
                 </div>
             </div>
         </template>
@@ -69,15 +77,18 @@
                 </div>
             </div>
         </div>
+        <guidelines :open="showGuidelines" @closed="showGuidelines = false"></guidelines>
     </app-layout>
 </template>
 
 <script>
 import {defineComponent} from 'vue'
 import AppLayout from '@/Layouts/AppLayout.vue'
+import Guidelines from "@/Components/Guidelines";
 
 export default defineComponent({
     components: {
+        Guidelines,
         AppLayout,
     },
     props: {
@@ -87,6 +98,7 @@ export default defineComponent({
     data() {
         return {
             'revealed': false,
+            'showGuidelines': true,
             'users': [],
             'cards': [
                 {
