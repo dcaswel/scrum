@@ -28,7 +28,7 @@
         </template>
 
         <div class="py-12">
-            <div id="slots" class="max-w-7xl mx-auto sm:px-6 lg:px-8 flex flex-wrap">
+            <div id="slots" class="max-w-7xl mx-auto sm:px-6 lg:px-8 px-2 flex flex-wrap">
                 <div class="mr-3 mt-4">
                     <div
                         class="rounded-t-xl border-t border-l border-r border-dashed border-gray-500 w-40 h-40 relative p-3">
@@ -53,9 +53,9 @@
                              v-bind:key="user.points"
                              class="bg-white rounded-xl drop-shadow-lg w-full h-40 flex justify-center items-center">
                             <img v-if="!revealed"
-                                 src="https://get.goreact.com/wp-content/uploads/sites/5/2020/10/GoReactLogo_.svg"
+                                 src="https://staticassets.goreact.com/logo-goreact-dash-2020.svg"
                                  alt="GoReact" id="logo" data-height-percentage="65" data-actual-width="300"
-                                 data-actual-height="98.0625">
+                                 data-actual-height="98.0625" class="px-2">
                             <div v-if="revealed" class="font-bold text-6xl">
                                 {{ user.points }}
                             </div>
@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-            <div id="cards" class="max-w-7xl mx-auto sm:px-6 lg:px-8 flex flex-wrap mt-20">
+            <div id="cards" class="max-w-7xl mx-auto sm:px-6 lg:px-8 px-2 flex flex-wrap mt-20">
                 <div v-for="card in cards" class="flex-initial mt-8 mr-3">
                     <div
                         @click="chooseCard(card)"
