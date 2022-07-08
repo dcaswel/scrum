@@ -14,9 +14,11 @@ class EstimationController extends Controller
 
     public function index(Request $request)
     {
+        $guidelines = $request->user()->currentTeam->guidelines()->orderBy('score')->with(['bullets', 'tickets'])->get();
         return Inertia::render('Estimation', [
             'team_id' => $request->user()->currentTeam->getKey(),
-            'me' => $request->user()->only(['id', 'name', 'points'])
+            'me' => $request->user()->only(['id', 'name', 'points']),
+            'guidelines' => $guidelines
         ]);
     }
 

@@ -77,7 +77,7 @@
                 </div>
             </div>
         </div>
-        <guidelines :open="showGuidelines" @closed="showGuidelines = false"></guidelines>
+        <guidelines :open="showGuidelines" @closed="showGuidelines = false" :guidelines="guidelines"></guidelines>
     </app-layout>
 </template>
 
@@ -93,7 +93,8 @@ export default defineComponent({
     },
     props: {
         team_id: Number,
-        me: Object
+        me: Object,
+        guidelines: Array
     },
     data() {
         return {

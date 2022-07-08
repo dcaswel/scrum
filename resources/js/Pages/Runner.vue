@@ -38,8 +38,8 @@
                             focus:ring-offset-2 focus:ring-indigo-500 ml-5"
                 >Recalculate</button>
             </div>
-            <div id="slots" class="max-w-7xl mx-auto sm:px-6 lg:px-8 px-2 flex flex-wrap">
-                <div v-for="user in users" class="mr-3 mt-4">
+            <div id="slots" class="max-w-7xl mx-auto sm:px-6 lg:px-8 -mt-9 px-2 flex flex-wrap">
+                <div v-for="user in users" class="mr-3 mt-11">
                     <div
                         class="rounded-t-xl border-t border-l border-r border-dashed border-gray-500 w-40 h-40 relative p-3">
                         <div class="-top-3 left-6 bg-gray-100 absolute px-2">
@@ -100,10 +100,10 @@ export default defineComponent({
                     }
                 })
             })
-            .listen('ResetCards', e => {
+            .listen('ResetCards', () => {
                 this.clearPoints();
             })
-            .listenForWhisper('reveal', e => this.revealed = true);
+            .listenForWhisper('reveal', () => this.revealed = true);
     },
     methods: {
         reveal() {
