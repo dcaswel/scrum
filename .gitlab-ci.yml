@@ -1,0 +1,82 @@
+stages:
+  - build
+  - deploy
+
+.docker-php-template:
+    image: gitlab.goreact.com:4567/goreact/docker-containers/gr-tests-php:latest
+    stage: build
+    tags:
+        - docker
+    before_script:
+        - set -e -o pipefail
+
+
+.docker-aws-template:
+    image: gitlab.goreact.com:4567/goreact/docker-containers/gr-awscli:latest
+    tags:
+        - docker
+    before_script:
+        - set -e -o pipefail
+        - cat /etc/hosts-master >> /etc/hosts
+
+.build-template:
+    extends: .docker-php-template
+    only:
+        - main
+    stage: build
+
+build-frontend:
+    extends: .build-template
+    script:
+        - source /usr/local/nvm/nvm.sh && nvm install && nvm use
+        - npm install
+        - npm run prod
+    cache:
+        key: cache-scrum-vuejs
+        policy: pull-push
+        paths:
+            - node_modules
+    artifacts:
+        paths:
+            - node_modules
+            - public
+        expire_in: 1 day
+
+build-backend:
+    extends: .build-template
+    script:
+        - composer install
+    cache:
+        key: cache-scrum-composer
+        policy: pull-push
+        paths:
+            - vendor
+    artifacts:
+        paths:
+            - vendor
+        expire_in: 1 day
+
+.deploy-template:
+    extends: .docker-aws-template
+    stage: deploy
+    only:
+        - main
+    before_script:
+        - mkdir -p ~/.ssh
+        - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        - echo "$SSH_PUBLIC_KEY" > ~/.ssh/id_rsa.pub
+        - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+        - cat /etc/hosts-master >> /etc/hosts
+        - chmod 0700 ~/.ssh
+        - chmod 0600 ~/.ssh/*
+
+deploy:
+    extends: .deploy-template
+    dependencies:
+        - build-backend
+        - build-frontend
+    script:
+        - ssh jenkins-deployer@scrum.gr.priv "cd /var/www/scrum && php artisan migrate --database=mysql_admin"
+        - rsync --Wlzrpvc app bootstrap config database node_modules public resources routes storage jenkins-deployer@scrum.gr.priv:/var/www/scrum/
+        - ssh jenkins-deployer@scrum.gr.priv "cd /var/www/scrum && php artisan config:cache"
+
