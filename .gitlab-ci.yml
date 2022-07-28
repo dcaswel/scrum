@@ -76,7 +76,8 @@ deploy:
         - build-backend
         - build-frontend
     script:
-        - ssh jenkins-deployer@scrum.gr.priv "cd /var/www/scrum && php artisan migrate --database=mysql_admin"
         - rsync --Wlzrpvc app bootstrap config database node_modules public resources routes storage jenkins-deployer@scrum.gr.priv:/var/www/scrum/
+        - ssh jenkins-deployer@scrum.gr.priv "cd /var/www/scrum && php artisan migrate --database=mysql_admin"
+        - rsync --Wlzrpvc --exclude-from=rsync-exclude.txt --delete app bootstrap config database node_modules public resources routes storage jenkins-deployer@scrum.gr.priv:/var/www/scrum/
         - ssh jenkins-deployer@scrum.gr.priv "cd /var/www/scrum && php artisan config:cache"
 
