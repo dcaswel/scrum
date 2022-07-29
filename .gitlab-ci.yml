@@ -30,6 +30,7 @@ build-frontend:
     script:
         - source /usr/local/nvm/nvm.sh && nvm install && nvm use
         - npm install
+        - echo "MIX_PUSHER_APP_KEY=$MIX_PUSHER_APP_KEY" >> .env && echo "MIX_PUSHER_APP_CLUSTER=$MIX_PUSHER_APP_CLUSTER" >> .env
         - npm run prod
     cache:
         key: cache-scrum-vuejs
