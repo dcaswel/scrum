@@ -53,9 +53,16 @@ class JetstreamServiceProvider extends ServiceProvider
 
         Jetstream::role('scrum_master', 'Scrum Master', [
             'reveal',
+            'guideline:view',
+            'guideline:upsert'
         ])->description('Team Scrum Master');
 
-        Jetstream::role('lead', 'Team Lead', [])->description('Team Lead');
-        Jetstream::role('member', 'Team Member', [])->description('Member');
+        Jetstream::role('lead', 'Team Lead', [
+            'guideline:view',
+            'guideline:upsert'
+        ])->description('Team Lead');
+        Jetstream::role('member', 'Team Member', [
+            'guideline:view'
+        ])->description('Member');
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EstimationController;
+use App\Http\Controllers\GuidelinesController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -29,4 +30,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::delete('/reset/{team}', [EstimationController::class, 'reset'])->name('reset');
     Route::patch('/reset-user', [EstimationController::class, 'resetUser'])->name('reset-user');
     Route::get('/runner', [EstimationController::class, 'runner'])->name('runner');
+
+    Route::get('/guidelines/edit', [GuidelinesController::class, 'edit'])->name('guidelines.edit');
 });
