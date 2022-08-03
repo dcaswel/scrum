@@ -39,7 +39,7 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => [
-                    'permissions' => $request->user()->teamPermissions($request->user()->currentTeam)
+                    'permissions' => $request->user()?->teamPermissions($request->user()->currentTeam)
                 ]
             ]
         ]);
