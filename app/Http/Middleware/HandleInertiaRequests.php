@@ -41,6 +41,9 @@ class HandleInertiaRequests extends Middleware
                 'user' => [
                     'permissions' => $request->user()?->teamPermissions($request->user()->currentTeam)
                 ]
+            ],
+            'flash' => [
+                'status' => fn () => $request->session()->get('status')
             ]
         ]);
     }

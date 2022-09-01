@@ -31,5 +31,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::patch('/reset-user', [EstimationController::class, 'resetUser'])->name('reset-user');
     Route::get('/runner', [EstimationController::class, 'runner'])->name('runner');
 
-    Route::get('/guidelines/edit', [GuidelinesController::class, 'edit'])->name('guidelines.edit');
+    Route::controller(GuidelinesController::class)->prefix('guidelines')->group(function() {
+        Route::get('edit', 'edit')->name('guidelines.edit');
+        Route::post('/', 'create')->name('guidelines.create');
+        Route::put('{guideline}', 'update')->name('guidelines.update');
+    });
 });
