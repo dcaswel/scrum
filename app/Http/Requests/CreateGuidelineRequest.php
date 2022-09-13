@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Worksome\RequestFactories\Concerns\HasFactory;
 
 /**
  * Class CreateGuidelineRequest
@@ -13,6 +14,8 @@ use Illuminate\Foundation\Http\FormRequest;
  */
 class CreateGuidelineRequest extends FormRequest
 {
+    use HasFactory;
+
     public function rules(): array
     {
         return [
