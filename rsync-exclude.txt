@@ -1,2 +1,4 @@
 .env
 bootstrap/cache
+storage/framework/
+storage/logs/
