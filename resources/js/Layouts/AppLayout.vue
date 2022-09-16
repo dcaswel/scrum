@@ -23,6 +23,12 @@
                                     Estimation
                                 </jet-nav-link>
                             </div>
+
+                            <div v-if="hasPermission('guideline:upsert')" class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <jet-nav-link :href="route('guidelines.edit')" :active="route().current('guidelines.edit')">
+                                    Manage Guidelines
+                                </jet-nav-link>
+                            </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -145,6 +151,9 @@
                         <jet-responsive-nav-link :href="route('estimation')" :active="route().current('estimation')">
                             Estimation
                         </jet-responsive-nav-link>
+                        <jet-responsive-nav-link v-if="hasPermission('guideline.upsert')" :href="route('guidelines.edit')" :active="route().current('guidelines.edit')">
+                            Manage Guidelines
+                        </jet-responsive-nav-link>
                     </div>
 
                     <!-- Responsive Settings Options -->
@@ -264,6 +273,11 @@
         },
 
         methods: {
+            hasPermission(permission) {
+                return this.$page.props.auth.user.permissions.includes('*') ||
+                    this.$page.props.auth.user.permissions.includes(permission);
+            },
+
             switchToTeam(team) {
                 this.$inertia.put(route('current-team.update'), {
                     'team_id': team.id
