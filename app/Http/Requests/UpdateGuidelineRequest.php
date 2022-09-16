@@ -39,6 +39,6 @@ class UpdateGuidelineRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return $this->user()->hasTeamPermission($this->user()->currentTeam, 'guideline:upsert');
+        return $this->user()->can('update', $this->route('guideline'));
     }
 }

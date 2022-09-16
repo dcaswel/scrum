@@ -14,6 +14,8 @@ class GuidelinesController extends Controller
 {
     public function edit()
     {
+        $this->authorize('manageGuidelines', Auth::user()->currentTeam);
+
         return Inertia::render('Guidelines/Edit', [
             'guidelines' => Auth::user()->currentTeam->guidelines->load(['bullets', 'tickets'])
         ]);

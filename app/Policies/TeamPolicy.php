@@ -107,4 +107,9 @@ class TeamPolicy
     {
         return $user->ownsTeam($team);
     }
+
+    public function manageGuidelines(User $user, Team $team)
+    {
+        return $user->hasTeamPermission($team, 'guideline:upsert');
+    }
 }

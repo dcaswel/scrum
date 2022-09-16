@@ -141,7 +141,7 @@ export default defineComponent({
                         min = value;
                     }
                 });
-                if (Math.abs(min - max) <= 2) {
+                if (Math.abs(min - max) < 2) {
                     this.result = (this.total / values.length).toFixed(1);
                 } else {
                     this.result = 'Revote';

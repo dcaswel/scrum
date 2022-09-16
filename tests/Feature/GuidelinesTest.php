@@ -24,6 +24,14 @@ test('The edit form can load', function () {
         );
 });
 
+test('A User must have permission to edit the team guidelines', function () {
+    $team = Team::factory()->create();
+    $user = User::factory()->withPersonalTeam()->hasAttached($team, ['role' => 'member'])->create();
+    $user->switchTeam($team);
+
+    login($user)->get(route('guidelines.edit'))->assertForbidden();
+});
+
 it('Can create a basic guideline with just a description', function () {
     $user = User::factory()->withPersonalTeam()->create();
     $request = CreateGuidelineRequest::factory()->create();
@@ -66,7 +74,7 @@ it('Cannot create a Guideline on the wrong team', function () {
 
 it('Can Update a Guidelines description', function () {
     $user = User::factory()->withPersonalTeam()->create();
-    $guideline = Guideline::factory()->create();
+    $guideline = Guideline::factory()->for($user->personalTeam())->create();
     $request = UpdateGuidelineRequest::factory()->create(['description' => 'Pick Me!!']);
     login($user)
         ->from(route('guidelines.edit'))
@@ -169,3 +177,10 @@ it('Will remove tickets that are not sent in an update', function () {
         ->tickets->toHaveCount(1)
         ->tickets->first()->ticket_number->toBe('I\'m a ticket');
 });
+
+test('A user cannot update a guideline without permission', function () {
+    $team = Team::factory()->hasGuidelines()->create();
+    $user = User::factory()->withPersonalTeam()->hasAttached($team, ['role' => 'member'])->create();
+
+    login($user)->put(route('guidelines.update', $team->guidelines->first()))->assertForbidden();
+})->fakeRequest(UpdateGuidelineRequest::class);

@@ -1,7 +1,9 @@
 <?php
 
 
+use App\Enums\Points;
 use App\Events\CardChosen;
+use App\Events\ResetCards;
 use App\Models\Guideline;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -40,16 +42,43 @@ test('Showing the runner', function () {
 
 test('A user can choose a card', function () {
     Event::fake();
-    $user = User::factory()->withPersonalTeam()->create(['points' => 2]);
-    login($user)->post(route('choose'), ['points' => '1.0'])->assertNoContent();
-    expect($user->fresh())->points->toBe('1.0');
-    Event::assertDispatched(fn(CardChosen $event) => $event->user->is($user) && $event->points === '1.0');
+    $user = User::factory()->withPersonalTeam()->create(['points' => Points::Two]);
+    login($user)->post(route('choose'), ['points' => Points::One->value])->assertNoContent();
+    expect($user->fresh())->points->toBe(Points::One);
+    Event::assertDispatched(fn(CardChosen $event) => $event->user->is($user) && $event->points === Points::One->value);
 });
 
-test('A user must supply points for the card they chose');
+test('A user must supply points for the card they chose', function() {
+    $user = User::factory()->withPersonalTeam()->create();
+    login($user)->post(route('choose'), [])->assertStatus(302)
+        ->assertSessionHasErrors(['points' => 'The points field is required.']);
+});
 
-test('The points a user gives must be valid points');
+test('The points a user gives must be valid points', function() {
+    $user = User::factory()->withPersonalTeam()->create();
+    login($user)->post(route('choose'), ['points' => 'One Million'])->assertStatus(302)
+        ->assertSessionHasErrors(['points' => 'The selected points is invalid.']);
+});
 
-it('Can reset the scores');
+it('Can reset the scores', function() {
+    Event::fake();
+    $user = User::factory()->withPersonalTeam()->create(['points' => Points::One]);
+    $team = $user->personalTeam();
+    $user2 = User::factory()->hasAttached($team, ['role' => 'member'])->create(['points' => Points::Two]);
+    $user2->switchTeam($team);
 
-it('Can reset a single user');
+    login($user)->delete(route('reset', ['team' => $team]))->assertNoContent();
+
+    Event::assertDispatched(fn(ResetCards $event) => $event->teamId === $team->getKey());
+
+    expect($user->fresh())->points->toBeNull()
+        ->and($user2->fresh())->points->toBeNull();
+});
+
+it('Can reset a single user', function() {
+    $user = User::factory()->withPersonalTeam()->create(['points' => Points::One]);
+
+    login($user)->patch(route('reset-user'))->assertNoContent();
+
+    expect($user->fresh())->points->toBeNull();
+});
