@@ -13,7 +13,7 @@ use Inertia\Testing\AssertableInertia;
 test('Showing the estimation page', function () {
     $user = User::factory()->withPersonalTeam()->create();
     $guidelines = Guideline::factory(2)->for($user->personalTeam())->hasBullets()->hasTickets()
-        ->state(new Sequence(['score' => 1], ['score' => 2]))
+        ->state(new Sequence(['score' => Points::One->value], ['score' => Points::Two->value]))
         ->create();
     login($user)->get(route('estimation'))
         ->assertInertia(fn(AssertableInertia $page) => $page
@@ -23,7 +23,7 @@ test('Showing the estimation page', function () {
             ->has('guidelines', 2, fn(AssertableInertia $page) => $page
                 ->where('id', $guidelines->first()->getKey())
                 ->where('description', $guidelines->first()->description)
-                ->where('score', number_format($guidelines->first()->score, decimals: 1))
+                ->where('score', $guidelines->first()->score)
                 ->has('tickets', 1)
                 ->has('bullets', 1)
                 ->etc()

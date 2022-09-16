@@ -16,7 +16,7 @@ test('The edit form can load', function () {
             ->component('Guidelines/Edit')
             ->has('guidelines', 2, fn(AssertableInertia $page) => $page
                 ->where('description', $guidelines->first()->description)
-                ->where('score', number_format($guidelines->first()->score, decimals: 1))
+                ->where('score', $guidelines->first()->score)
                 ->has('tickets', 1)
                 ->has('bullets', 1)
                 ->etc()
