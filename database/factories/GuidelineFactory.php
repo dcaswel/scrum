@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Points;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,7 +20,7 @@ class GuidelineFactory extends Factory
     {
         return [
             'team_id' => Team::factory(),
-            'score' => $this->faker->randomElement([0.5, 1, 3, 5, 8, 13, 21]),
+            'score' => $this->faker->randomElement(Points::values()),
             'description' => $this->faker->sentence()
         ];
     }
