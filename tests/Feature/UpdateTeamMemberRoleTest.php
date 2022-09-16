@@ -15,15 +15,15 @@ class UpdateTeamMemberRoleTest extends TestCase
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());
 
         $user->currentTeam->users()->attach(
-            $otherUser = User::factory()->create(), ['role' => 'admin']
+            $otherUser = User::factory()->create(), ['role' => 'scrum_master']
         );
 
         $response = $this->put('/teams/'.$user->currentTeam->id.'/members/'.$otherUser->id, [
-            'role' => 'editor',
+            'role' => 'member',
         ]);
 
         $this->assertTrue($otherUser->fresh()->hasTeamRole(
-            $user->currentTeam->fresh(), 'editor'
+            $user->currentTeam->fresh(), 'member'
         ));
     }
 
@@ -32,17 +32,17 @@ class UpdateTeamMemberRoleTest extends TestCase
         $user = User::factory()->withPersonalTeam()->create();
 
         $user->currentTeam->users()->attach(
-            $otherUser = User::factory()->create(), ['role' => 'admin']
+            $otherUser = User::factory()->withPersonalTeam()->create(), ['role' => 'scrum_master']
         );
 
         $this->actingAs($otherUser);
 
         $response = $this->put('/teams/'.$user->currentTeam->id.'/members/'.$otherUser->id, [
-            'role' => 'editor',
+            'role' => 'member',
         ]);
 
         $this->assertTrue($otherUser->fresh()->hasTeamRole(
-            $user->currentTeam->fresh(), 'admin'
+            $user->currentTeam->fresh(), 'scrum_master'
         ));
     }
 }

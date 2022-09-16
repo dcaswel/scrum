@@ -15,16 +15,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()
+        /** @var User $user */
+        $user = User::factory()
             ->withPersonalTeam()
-            ->has(Team::factory()->state(function (array $attributes, User $user) {
-                return ['name' => 'Ctrl Alt Elite', 'user_id' => $user->id, 'personal_team' => false];
-            }))
-            ->create([
-            'name' => 'Derek Caswell',
-            'email' => 'dcaswell@goreact.com'
-        ]);
-        $team = Team::where('name', 'Ctrl Alt Elite')->first();
-        User::factory(10)->withPersonalTeam()->hasAttached($team, ['role' => 'member'])->create();
+            ->create([ 'name' => 'Derek Caswell', 'email' => 'dcaswell@goreact.com' ]);
+        Team::factory()->for($user, 'owner')
+            ->hasAttached(User::factory(10)->withPersonalTeam(), ['role' => 'member'])
+            ->create([ 'name' => 'Ctrl Alt Elite', 'personal_team' => false ]);
     }
 }

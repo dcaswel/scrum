@@ -20,7 +20,7 @@ class InviteTeamMemberTest extends TestCase
 
         $response = $this->post('/teams/'.$user->currentTeam->id.'/members', [
             'email' => 'test@example.com',
-            'role' => 'admin',
+            'role' => 'scrum_master',
         ]);
 
         Mail::assertSent(TeamInvitation::class);

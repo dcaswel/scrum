@@ -10,6 +10,8 @@
         "production": "mix --production"
     },
     "devDependencies": {
+        "@headlessui/vue": "^1.4.3",
+        "@heroicons/vue": "^1.0.6",
         "@inertiajs/inertia": "^0.10.0",
         "@inertiajs/inertia-vue3": "^0.5.1",
         "@inertiajs/progress": "^0.2.6",
@@ -25,8 +27,6 @@
         "pusher-js": "^7.0.6",
         "tailwindcss": "^3.0.0",
         "vue": "^3.0.5",
-        "vue-loader": "^16.1.2",
-        "@headlessui/vue": "^1.4.3",
-        "@heroicons/vue": "^1.0.5"
+        "vue-loader": "^16.1.2"
     }
 }
