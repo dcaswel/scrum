@@ -36,7 +36,7 @@ class EstimationController extends Controller
         $request->validate(['points' => ['required', Rule::in(Points::values())]]);
 
         $user = $request->user();
-        $user->points = $request->points;
+        $user->points = (string) $request->points;
         $user->save();
 
         CardChosen::dispatch($request->user(), $request->points);
