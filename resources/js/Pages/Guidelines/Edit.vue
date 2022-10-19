@@ -1,9 +1,12 @@
 <template>
     <app-layout title="Manage Guidelines">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Manage Guidelines
-            </h2>
+            <div class="flex justify-between">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    Manage Guidelines
+                </h2>
+                <HeaderButton>Copy Guidelines</HeaderButton>
+            </div>
         </template>
         <div class="mx-auto max-w-4xl mt-2">
             <div class="bg-white overflow-hidden shadow sm:rounded-lg">
@@ -29,8 +32,9 @@
 
 <script setup>
 import AppLayout from "@/Layouts/AppLayout";
-import Guideline from "@/Pages/Guidelines/Partials/Guideline"
+import Guideline from "@/Pages/Guidelines/Partials/Guideline";
 import Alert from "@/Components/Alert";
+import HeaderButton from "@/Components/HeaderButton";
 
 const props = defineProps({
     guidelines: Array
