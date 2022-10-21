@@ -35,5 +35,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('edit', 'edit')->name('guidelines.edit');
         Route::post('/', 'create')->name('guidelines.create');
         Route::put('{guideline}', 'update')->name('guidelines.update');
+        Route::post('/copy', 'copy')->name('guidelines.copy');
     });
 });

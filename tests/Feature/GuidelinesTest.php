@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Enums\Points;
 use App\Http\Requests\CreateGuidelineRequest;
 use App\Http\Requests\UpdateGuidelineRequest;
 use App\Models\Guideline;
@@ -9,7 +10,9 @@ use App\Models\User;
 use Inertia\Testing\AssertableInertia;
 
 test('The edit form can load', function () {
-    $user = User::factory()->withPersonalTeam()->create();
+    $team = Team::factory()->create();
+    $user = User::factory()->hasAttached($team, ['role' => 'member'])->withPersonalTeam()->create();
+
     $guidelines = Guideline::factory(2)->for($user->personalTeam())->hasTickets()->hasBullets()->create();
     login($user)->get('/guidelines/edit')
         ->assertInertia(fn(AssertableInertia $page) => $page
@@ -21,6 +24,8 @@ test('The edit form can load', function () {
                 ->has('bullets', 1)
                 ->etc()
             )
+            ->has('teams', 1)
+            ->has('teams', fn(AssertableInertia $page) => $page->where($team->getKey(), $team->name))
         );
 });
 
@@ -184,3 +189,39 @@ test('A user cannot update a guideline without permission', function () {
 
     login($user)->put(route('guidelines.update', $team->guidelines->first()))->assertForbidden();
 })->fakeRequest(UpdateGuidelineRequest::class);
+
+it('Can copy the guidelines from another team', function() {
+    $user = User::factory()->withPersonalTeam()->create();
+    Guideline::factory()->score(Points::Half)->for($user->personalTeam())->hasTickets()->create();
+    $otherTeam = Team::factory()->hasAttached($user, ['role' => 'scrum_master'])->create();
+    $halfGuideline = Guideline::factory()->score(Points::Half)->for($otherTeam)->hasTickets()->create();
+    $oneGuideline = Guideline::factory()->score(Points::One)->for($otherTeam)->hasTickets()->hasBullets()->create();
+
+    login($user)
+        ->from(route('guidelines.edit'))
+        ->post(route('guidelines.copy', ['team' => $otherTeam->getKey()]))
+        ->assertRedirect(route('guidelines.edit'));
+
+    expect($user->personalTeam())
+        ->guidelines->toHaveCount(2)
+        ->sequence(
+            fn($guideline) => $guideline
+                ->description->toBe($halfGuideline->description)
+                ->tickets->toHaveCount(2)
+                ->tickets->contains(fn($ticket) => $ticket->ticket_number === $halfGuideline->tickets->first()->ticket_number)->toBeTrue(),
+            fn($guideline) => $guideline
+                ->description->toBe($oneGuideline->description)
+                ->tickets->toHaveCount(1)
+                ->tickets->first()->ticket_number->toBe($oneGuideline->tickets->first()->ticket_number)
+                ->bullets->toHaveCount(1)
+                ->bullets->first()->body->toBe($oneGuideline->bullets->first()->body)
+        );
+});
+
+test('User must have access to the team being copied', function() {
+    $user = User::factory()->withPersonalTeam()->create();
+    Guideline::factory()->score(Points::Half)->for($user->personalTeam())->hasTickets()->create();
+    $otherTeam = Team::factory()->hasAttached($user, ['role' => 'member'])->create();
+
+    login($user)->post(route('guidelines.copy', ['team' => $otherTeam->getKey()]))->assertForbidden();
+});
