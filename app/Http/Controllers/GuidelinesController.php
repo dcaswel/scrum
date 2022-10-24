@@ -7,21 +7,40 @@ use App\Http\Requests\UpdateGuidelineRequest;
 use App\Models\Guideline;
 use App\Models\GuidelineBullet;
 use App\Models\GuidelineTicket;
+use App\Models\Team;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class GuidelinesController extends Controller
 {
-    public function edit()
+    /**
+     * Pull up the Guidelines edit page
+     *
+     * @return Response
+     * @throws AuthorizationException
+     */
+    public function edit(): Response
     {
         $this->authorize('manageGuidelines', Auth::user()->currentTeam);
 
         return Inertia::render('Guidelines/Edit', [
-            'guidelines' => Auth::user()->currentTeam->guidelines->load(['bullets', 'tickets'])
+            'guidelines' => Auth::user()->currentTeam->guidelines->load(['bullets', 'tickets']),
+            'teams' => Auth::user()->allTeams()->reject(fn($team) => $team->is(Auth::user()->currentTeam))
+                ->pluck('name', 'id')
         ]);
     }
 
-    public function create(CreateGuidelineRequest $request)
+    /**
+     * Create a new guideline
+     *
+     * @param CreateGuidelineRequest $request
+     * @return RedirectResponse
+     */
+    public function create(CreateGuidelineRequest $request): RedirectResponse
     {
         $guideline = new Guideline($request->only(['score', 'description']));
         $guideline->team()->associate($request->user()->currentTeam);
@@ -37,7 +56,14 @@ class GuidelinesController extends Controller
         return back()->with('status', 'guideline-created');
     }
 
-    public function update(Guideline $guideline, UpdateGuidelineRequest $request)
+    /**
+     * Update the given guideline
+     *
+     * @param Guideline $guideline
+     * @param UpdateGuidelineRequest $request
+     * @return RedirectResponse
+     */
+    public function update(Guideline $guideline, UpdateGuidelineRequest $request): RedirectResponse
     {
         $guideline->description = $request->description;
         $guideline->save();
@@ -63,6 +89,42 @@ class GuidelinesController extends Controller
                 ));
 
         return back()->with('status', 'guideline-updated');
+    }
+
+    /**
+     * Copy the guidelines from the team that is sent in the request
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws AuthorizationException
+     */
+    public function copy(Request $request): RedirectResponse
+    {
+        $otherTeam = Team::find($request->team);
+        $this->authorize('manageGuidelines', $otherTeam);
+
+        $currentTeam = Auth::user()->currentTeam;
+        $otherTeam->guidelines->each(function (Guideline $newGuideline) use ($currentTeam) {
+            $oldGuideline = $currentTeam->guidelines()->whereScore($newGuideline->score)->first();
+            if (empty($oldGuideline)) {
+                $oldGuideline = $newGuideline->replicate();
+                $oldGuideline->team()->associate($currentTeam);
+            } else {
+                $oldGuideline->description = $newGuideline->description;
+                $oldGuideline->score = $newGuideline->score;
+            }
+            $oldGuideline->save();
+
+            $newGuideline->tickets->each(fn (GuidelineTicket $transferTicket) =>
+                $transferTicket->replicate()->guideline()->associate($oldGuideline)->save()
+            );
+
+            $newGuideline->bullets->each(fn (GuidelineBullet $transferBullet) =>
+                $transferBullet->replicate()->guideline()->associate($oldGuideline)->save()
+            );
+        });
+
+        return back();
     }
 
 }

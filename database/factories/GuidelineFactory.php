@@ -24,4 +24,9 @@ class GuidelineFactory extends Factory
             'description' => $this->faker->sentence()
         ];
     }
+
+    public function score(Points $score)
+    {
+        return $this->state(['score' => $score]);
+    }
 }

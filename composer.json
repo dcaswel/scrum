@@ -20,12 +20,14 @@
         "worksome/request-factories": "^2.4"
     },
     "require-dev": {
+        "brianium/paratest": "^6.6",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "pestphp/pest": "^1.22",
         "pestphp/pest-plugin-laravel": "^1.2",
+        "pestphp/pest-plugin-parallel": "^1.2",
         "phpunit/phpunit": "^9.5.10",
         "roave/security-advisories": "dev-latest",
         "spatie/laravel-ignition": "^1.0"

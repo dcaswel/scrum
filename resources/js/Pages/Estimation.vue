@@ -6,23 +6,8 @@
                     Estimation
                 </h2>
                 <div class="flex">
-                    <a
-                        target="_blank"
-                        :href="route('runner')"
-                        type="button"
-                        class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-full
-                            text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2
-                            focus:ring-offset-2 focus:ring-indigo-500 mr-2"
-                    >Runner
-                    </a>
-                    <button
-                        @click="showGuidelines = true"
-                        type="button"
-                        class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-full
-                            text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2
-                            focus:ring-offset-2 focus:ring-indigo-500 mr-2"
-                    >Guidelines
-                    </button>
+                    <HeaderButtonLink target="_blank" :href="route('runner')">Runner</HeaderButtonLink>
+                    <HeaderButton @click="showGuidelines = true">Guidelines</HeaderButton>
                 </div>
             </div>
         </template>
@@ -85,11 +70,15 @@
 import {defineComponent} from 'vue'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import Guidelines from "@/Components/Guidelines";
+import HeaderButton from "@/Components/HeaderButton";
+import HeaderButtonLink from "@/Components/HeaderButtonLink";
 
 export default defineComponent({
     components: {
+        HeaderButtonLink,
         Guidelines,
         AppLayout,
+        HeaderButton,
     },
     props: {
         team_id: Number,
