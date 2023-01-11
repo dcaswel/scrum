@@ -14,7 +14,7 @@
 
         <div class="py-12">
             <div id="slots" class="max-w-7xl mx-auto sm:px-6 lg:px-8 px-2 flex flex-wrap">
-                <div class="mr-3 mt-4">
+                <div class="mr-3 mt-11">
                     <div
                         class="rounded-t-xl border-t border-l border-r border-dashed border-gray-500 w-40 h-40 relative p-3">
                         <div class="-top-3 left-6 bg-gray-100 absolute px-2">
@@ -28,7 +28,8 @@
                         </div>
                     </div>
                 </div>
-                <div v-for="user in users" class="mr-3 mt-4">
+                <ConfettiExplosion v-if="explode" :force="1" :particleCount="300" :colors="['#F00', '#000', '#FFF']"/>
+                <div v-for="user in users" class="mr-3 mt-11">
                     <div
                         class="rounded-t-xl border-t border-l border-r border-dashed border-gray-500 w-40 h-40 relative p-3">
                         <div class="-top-3 left-6 bg-gray-100 absolute px-2">
@@ -72,6 +73,7 @@ import AppLayout from '@/Layouts/AppLayout.vue'
 import Guidelines from "@/Components/Guidelines";
 import HeaderButton from "@/Components/HeaderButton";
 import HeaderButtonLink from "@/Components/HeaderButtonLink";
+import ConfettiExplosion from 'vue-confetti-explosion';
 
 export default defineComponent({
     components: {
@@ -79,6 +81,7 @@ export default defineComponent({
         Guidelines,
         AppLayout,
         HeaderButton,
+        ConfettiExplosion
     },
     props: {
         team_id: Number,
@@ -87,6 +90,7 @@ export default defineComponent({
     },
     data() {
         return {
+            'explode': false,
             'revealed': false,
             'showGuidelines': false,
             'users': [],
@@ -150,8 +154,15 @@ export default defineComponent({
             })
             .listen('ResetCards', () => {
                 this.clearPoints();
+                this.explode = false;
             })
-            .listenForWhisper('reveal', () => this.revealed = true);
+            .listenForWhisper('reveal', () => {
+                this.revealed = true;
+                const uniqueScores = [...new Set([...this.users.map((user) => user.points), ...[this.me.points]])];
+                if (uniqueScores.length === 1) {
+                    this.explode = true;
+                }
+            });
     },
     unmounted() {
         Echo.leave('team.' + this.team_id);
