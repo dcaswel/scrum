@@ -29,5 +29,8 @@
         "tailwindcss": "^3.0.0",
         "vue": "^3.0.5",
         "vue-loader": "^16.1.2"
+    },
+    "dependencies": {
+        "vue-confetti-explosion": "^1.0.2"
     }
 }

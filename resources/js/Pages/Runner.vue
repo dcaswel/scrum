@@ -28,6 +28,7 @@
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 px-2 h-10 font-bold mb-5 flex">
+                <ConfettiExplosion v-if="explode" :force="1" :particleCount="300" :colors="['#F00', '#000', '#FFF']" />
                 <div class="items-center inline-flex w-32">Result: {{ this.result }}</div>
                 <button
                     @click="calculateResult"
@@ -64,18 +65,21 @@
 </template>
 
 <script>
-import {defineComponent} from 'vue'
-import AppLayout from '@/Layouts/AppLayout.vue'
+import {defineComponent} from 'vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
+import ConfettiExplosion from 'vue-confetti-explosion';
 
 export default defineComponent({
     components: {
         AppLayout,
+        ConfettiExplosion
     },
     props: {
         team_id: Number
     },
     data() {
         return {
+            'explode': false,
             'revealed': false,
             'users': [],
             'result': null,
@@ -109,9 +113,14 @@ export default defineComponent({
         reveal() {
             this.revealed = true;
             this.calculateResult();
+            const uniqueScores = [...new Set(this.users.map((user) => user.points))];
+            if (uniqueScores.length === 1) {
+                this.explode = true;
+            }
             Echo.join('team.' + this.team_id).whisper('reveal', {});
         },
         reset() {
+            this.explode = false;
             this.clearPoints();
             axios.delete('/reset/' + this.team_id);
         },
