@@ -25,15 +25,15 @@ class UpdateGuidelineRequest extends FormRequest
             'bullets.*.id' => 'integer|exists:guideline_bullets',
             'tickets' => 'present|array',
             'tickets.*.ticket_number' => 'required|string',
-            'tickets.*.id' => 'integer|exists:guideline_tickets'
+            'tickets.*.id' => 'integer|exists:guideline_tickets',
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'bullets.*.body.required' => 'The bullet body is required.',
-            'tickets.*.ticket_number.required' => 'The ticket\'s number is required'
+            'tickets.*.ticket_number.required' => 'The ticket\'s number is required',
         ];
     }
 

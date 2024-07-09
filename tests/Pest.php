@@ -42,7 +42,7 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function login(User $user = null): TestCase
+function login(?User $user = null): TestCase
 {
     return test()->actingAs($user ?? User::factory()->withPersonalTeam()->create());
 }
