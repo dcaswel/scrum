@@ -12,7 +12,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('guidelines', fn (Blueprint $table) => $table->string('score')->change());
         /** Getting rid of any unneeded decimals */
@@ -25,7 +25,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('guidelines', fn (Blueprint $table) => $table->decimal('score', 8, 1)
             ->change());

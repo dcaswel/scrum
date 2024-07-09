@@ -21,7 +21,7 @@ class SendChosenNotification
      *
      * @return void
      */
-    public function handle(CardChosen $event)
+    public function handle(CardChosen $event): void
     {
         //
     }

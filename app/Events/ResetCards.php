@@ -27,7 +27,7 @@ class ResetCards implements ShouldBroadcast
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn()
+    public function broadcastOn(): array
     {
         return new PresenceChannel('team.'.$this->teamId);
     }

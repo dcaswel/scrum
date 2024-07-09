@@ -13,7 +13,7 @@ class CaeGuidelineSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $team = Team::where('name', 'Ctrl Alt Elite')->sole();
         if (! is_null($team)) {

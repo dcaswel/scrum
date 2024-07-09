@@ -30,7 +30,7 @@ class CreateGuidelineRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'bullets.*.body.required' => 'The bullet body is required.',
