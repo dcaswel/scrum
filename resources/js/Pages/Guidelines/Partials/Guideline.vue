@@ -102,15 +102,15 @@
 <script setup>
 import TrashIcon from "@heroicons/vue/outline/TrashIcon";
 import PlusCircleIcon from "@heroicons/vue/outline/PlusCircleIcon";
-import Pencil from "@/Components/icons/pencil";
-import JetButton from '@/Jetstream/Button';
-import JetSecondaryButton from '@/Jetstream/SecondaryButton';
+import Pencil from "@/Components/icons/pencil.vue";
+import JetButton from '@/Jetstream/Button.vue';
+import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue';
 import JetInput from '@/Jetstream/Input.vue'
 import JetInputError from '@/Jetstream/InputError.vue'
 import JetLabel from '@/Jetstream/Label.vue'
 import {Inertia} from "@inertiajs/inertia";
 import {ref} from "vue";
-import Divider from "@/Components/Divider";
+import Divider from "@/Components/Divider.vue";
 
 const props = defineProps({
     guideline: Object,

@@ -70,9 +70,9 @@
 <script>
 import {defineComponent} from 'vue'
 import AppLayout from '@/Layouts/AppLayout.vue'
-import Guidelines from "@/Components/Guidelines";
-import HeaderButton from "@/Components/HeaderButton";
-import HeaderButtonLink from "@/Components/HeaderButtonLink";
+import Guidelines from "@/Components/Guidelines.vue";
+import HeaderButton from "@/Components/HeaderButton.vue";
+import HeaderButtonLink from "@/Components/HeaderButtonLink.vue";
 import ConfettiExplosion from 'vue-confetti-explosion';
 
 export default defineComponent({
