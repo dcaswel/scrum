@@ -6,14 +6,14 @@ use App\Models\Guideline;
 use App\Models\Team;
 use Illuminate\Database\Seeder;
 
-class CaeGuidelineSeeder extends Seeder
+class CprGuidelineSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $team = Team::where('name', 'Ctrl Alt Elite')->sole();
+        $team = Team::where('name', 'Copy, Paste, Repeat')->sole();
         if (! is_null($team)) {
             Guideline::factory()->for($team)
                 ->create([

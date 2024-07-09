@@ -11,11 +11,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
-use Inertia\Response;
+use Inertia\Response as InertiaResponse;
 
 class EstimationController extends Controller
 {
-    public function index(Request $request): Response
+    public function index(Request $request): InertiaResponse
     {
         $guidelines = $request->user()->currentTeam->guidelines()->orderByRaw('CONVERT(score, SIGNED)')->with(['bullets', 'tickets'])->get();
 
@@ -26,7 +26,7 @@ class EstimationController extends Controller
         ]);
     }
 
-    public function runner(Request $request): Response
+    public function runner(Request $request): InertiaResponse
     {
         return Inertia::render('Runner', [
             'team_id' => $request->user()->currentTeam->getKey(),
