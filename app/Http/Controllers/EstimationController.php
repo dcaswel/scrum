@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Response;
+use Illuminate\Http\Response;
 use App\Enums\Points;
 use App\Events\CardChosen;
 use App\Events\ResetCards;
@@ -13,7 +15,7 @@ use Inertia\Inertia;
 
 class EstimationController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $guidelines = $request->user()->currentTeam->guidelines()->orderByRaw('CONVERT(score, SIGNED)')->with(['bullets', 'tickets'])->get();
 
@@ -24,14 +26,14 @@ class EstimationController extends Controller
         ]);
     }
 
-    public function runner(Request $request)
+    public function runner(Request $request): Response
     {
         return Inertia::render('Runner', [
             'team_id' => $request->user()->currentTeam->getKey(),
         ]);
     }
 
-    public function choose(Request $request)
+    public function choose(Request $request): Response
     {
         $request->validate(['points' => ['required', Rule::in(Points::values())]]);
 
@@ -44,7 +46,7 @@ class EstimationController extends Controller
         return response()->noContent();
     }
 
-    public function reset(Request $request, Team $team)
+    public function reset(Request $request, Team $team): Response
     {
         User::where('current_team_id', $team->getKey())->update(['points' => null]);
 
@@ -53,7 +55,7 @@ class EstimationController extends Controller
         return response()->noContent();
     }
 
-    public function resetUser(Request $request)
+    public function resetUser(Request $request): Response
     {
         $user = $request->user();
         $user->points = null;
