@@ -13,21 +13,21 @@ use Inertia\Inertia;
 
 class EstimationController extends Controller
 {
-
     public function index(Request $request)
     {
         $guidelines = $request->user()->currentTeam->guidelines()->orderByRaw('CONVERT(score, SIGNED)')->with(['bullets', 'tickets'])->get();
+
         return Inertia::render('Estimation', [
             'team_id' => $request->user()->currentTeam->getKey(),
             'me' => $request->user()->only(['id', 'name', 'points']),
-            'guidelines' => $guidelines
+            'guidelines' => $guidelines,
         ]);
     }
 
     public function runner(Request $request)
     {
         return Inertia::render('Runner', [
-            'team_id' => $request->user()->currentTeam->getKey()
+            'team_id' => $request->user()->currentTeam->getKey(),
         ]);
     }
 

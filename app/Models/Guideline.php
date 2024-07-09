@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property string $description
  * @property float $score
- *
  * @property Team $team
  * @property Collection<GuidelineBullet> $bullets
  * @property Collection<GuidelineTicket> $tickets

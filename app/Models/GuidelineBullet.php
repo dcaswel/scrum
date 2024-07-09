@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * Class GuidelineBullet
  *
  * @property string $body
- *
  * @property Guideline $guideline
  */
 class GuidelineBullet extends Model

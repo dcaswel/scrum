@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::table('guidelines', fn (Blueprint $table) => $table->string('score')->change());
         /** Getting rid of any unneeded decimals */
         Guideline::all()
-            ->each(fn(Guideline $guideline) => $guideline->update(['score' => (string)(float) $guideline->score]));
+            ->each(fn (Guideline $guideline) => $guideline->update(['score' => (string) (float) $guideline->score]));
     }
 
     /**

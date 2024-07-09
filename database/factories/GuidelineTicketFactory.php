@@ -20,7 +20,7 @@ class GuidelineTicketFactory extends Factory
         return [
             'guideline_id' => Guideline::factory(),
             'ticket_number' => $this->faker->word(),
-            'url' => null
+            'url' => null,
         ];
     }
 }

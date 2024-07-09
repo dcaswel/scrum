@@ -13,8 +13,7 @@ use Laravel\Jetstream\Team as JetstreamTeam;
  * Class Team
  *
  * @property string $name
- * @property boolean $personal_team
- *
+ * @property bool $personal_team
  * @property Collection<Guideline> $guidelines
  */
 class Team extends JetstreamTeam

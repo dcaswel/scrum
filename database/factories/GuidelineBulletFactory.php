@@ -19,7 +19,7 @@ class GuidelineBulletFactory extends Factory
     {
         return [
             'guideline_id' => Guideline::factory(),
-            'body' => $this->faker->sentence()
+            'body' => $this->faker->sentence(),
         ];
     }
 }
