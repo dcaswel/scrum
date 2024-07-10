@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use Laravel\Jetstream\Mail\TeamInvitation;
 use Tests\TestCase;
 
-class InviteTeamMemberTest extends TestCase
+final class InviteTeamMemberTest extends TestCase
 {
     use RefreshDatabase;
 
