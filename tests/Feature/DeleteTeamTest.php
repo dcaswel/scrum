@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-final class DeleteTeamTest extends TestCase
+class DeleteTeamTest extends TestCase
 {
     use RefreshDatabase;
 

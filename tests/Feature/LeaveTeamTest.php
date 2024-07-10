@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-final class LeaveTeamTest extends TestCase
+class LeaveTeamTest extends TestCase
 {
     use RefreshDatabase;
 

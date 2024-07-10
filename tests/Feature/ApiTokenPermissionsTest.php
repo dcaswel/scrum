@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
 use Tests\TestCase;
 
-final class ApiTokenPermissionsTest extends TestCase
+class ApiTokenPermissionsTest extends TestCase
 {
     use RefreshDatabase;
 

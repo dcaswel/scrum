@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
 use Tests\TestCase;
 
-final class DeleteApiTokenTest extends TestCase
+class DeleteApiTokenTest extends TestCase
 {
     use RefreshDatabase;
 
