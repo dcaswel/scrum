@@ -36,11 +36,11 @@ npm run dev
 ```
 You can also run this if you want it to automatically rebuild on save: 
 ```
-npm run watch
+npm run dev
 ```
 And, of course, you will want to run this in production:
 ```
-npm run prod
+npm run build
 ```
 Once you have done this, you should be able to bring up your app at localhost or whatever is pointing at your server
 and it should bring up the login screen for the app. The app does not expose a link to register a user because we want
