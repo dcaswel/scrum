@@ -34,10 +34,8 @@ The frontend of the project uses Vuejs so we will need to build the app. This ca
 npm install
 npm run dev
 ```
-You can also run this if you want it to automatically rebuild on save: 
-```
-npm run dev
-```
+This will also launch a watcher so if you save, your updates will hot reload to the browser. 
+
 And, of course, you will want to run this in production:
 ```
 npm run build
