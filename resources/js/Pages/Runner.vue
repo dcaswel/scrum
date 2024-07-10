@@ -169,7 +169,9 @@ export default defineComponent({
                 21: 8
             };
             let questionFound = false;
-            const arr = this.users.map(user => {
+            const arr = this.users
+                .filter(user => user.points)
+                .map(user => {
                 if (user.points === '?') {
                     questionFound = true;
                     return false;
