@@ -1,5 +1,6 @@
 /node_modules
 /public/hot
+/public/build
 /public/storage
 /public/css/app.css
 /public/js/app.js
@@ -9,7 +10,7 @@
 /vendor
 .env
 .env.backup
-.phpunit.result.cache
+/.phpunit.cache
 docker-compose.override.yml
 Homestead.json
 Homestead.yaml

@@ -9,23 +9,19 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('guidelines', fn (Blueprint $table) => $table->string('score')->change());
         /** Getting rid of any unneeded decimals */
         Guideline::all()
-            ->each(fn(Guideline $guideline) => $guideline->update(['score' => (string)(float) $guideline->score]));
+            ->each(fn (Guideline $guideline) => $guideline->update(['score' => (string) (float) $guideline->score]));
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('guidelines', fn (Blueprint $table) => $table->decimal('score', 8, 1)
             ->change());

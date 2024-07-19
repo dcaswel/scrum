@@ -12,14 +12,12 @@ class GuidelineBulletFactory extends Factory
 {
     /**
      * Define the model's default state.
-     *
-     * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'guideline_id' => Guideline::factory(),
-            'body' => $this->faker->sentence()
+            'body' => $this->faker->sentence(),
         ];
     }
 }

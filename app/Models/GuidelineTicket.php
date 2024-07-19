@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property string $ticket_number
  * @property string $url
- *
  * @property Guideline $guideline
  */
 class GuidelineTicket extends Model

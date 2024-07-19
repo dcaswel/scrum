@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Jetstream\Events\TeamCreated;
 use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
@@ -13,8 +14,7 @@ use Laravel\Jetstream\Team as JetstreamTeam;
  * Class Team
  *
  * @property string $name
- * @property boolean $personal_team
- *
+ * @property bool $personal_team
  * @property Collection<Guideline> $guidelines
  */
 class Team extends JetstreamTeam
@@ -51,7 +51,7 @@ class Team extends JetstreamTeam
         'deleted' => TeamDeleted::class,
     ];
 
-    public function guidelines()
+    public function guidelines(): HasMany
     {
         return $this->hasMany(Guideline::class);
     }

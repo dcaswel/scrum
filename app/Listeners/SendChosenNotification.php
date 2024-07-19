@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\CardChosen;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class SendChosenNotification
 {
@@ -20,11 +18,8 @@ class SendChosenNotification
 
     /**
      * Handle the event.
-     *
-     * @param  \App\Events\CardChosen  $event
-     * @return void
      */
-    public function handle(CardChosen $event)
+    public function handle(CardChosen $event): void
     {
         //
     }

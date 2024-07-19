@@ -12,15 +12,13 @@ class GuidelineTicketFactory extends Factory
 {
     /**
      * Define the model's default state.
-     *
-     * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'guideline_id' => Guideline::factory(),
             'ticket_number' => $this->faker->word(),
-            'url' => null
+            'url' => null,
         ];
     }
 }

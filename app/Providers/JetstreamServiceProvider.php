@@ -16,20 +16,16 @@ class JetstreamServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->configurePermissions();
 
@@ -44,25 +40,23 @@ class JetstreamServiceProvider extends ServiceProvider
 
     /**
      * Configure the roles and permissions that are available within the application.
-     *
-     * @return void
      */
-    protected function configurePermissions()
+    protected function configurePermissions(): void
     {
         Jetstream::defaultApiTokenPermissions(['read']);
 
         Jetstream::role('scrum_master', 'Scrum Master', [
             'reveal',
             'guideline:view',
-            'guideline:upsert'
+            'guideline:upsert',
         ])->description('Team Scrum Master');
 
         Jetstream::role('lead', 'Team Lead', [
             'guideline:view',
-            'guideline:upsert'
+            'guideline:upsert',
         ])->description('Team Lead');
         Jetstream::role('member', 'Team Member', [
-            'guideline:view'
+            'guideline:view',
         ])->description('Member');
     }
 }

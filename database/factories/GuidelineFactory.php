@@ -13,15 +13,13 @@ class GuidelineFactory extends Factory
 {
     /**
      * Define the model's default state.
-     *
-     * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'team_id' => Team::factory(),
             'score' => $this->faker->randomElement(Points::values()),
-            'description' => $this->faker->sentence()
+            'description' => $this->faker->sentence(),
         ];
     }
 

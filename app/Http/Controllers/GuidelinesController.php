@@ -20,7 +20,6 @@ class GuidelinesController extends Controller
     /**
      * Pull up the Guidelines edit page
      *
-     * @return Response
      * @throws AuthorizationException
      */
     public function edit(): Response
@@ -29,16 +28,13 @@ class GuidelinesController extends Controller
 
         return Inertia::render('Guidelines/Edit', [
             'guidelines' => Auth::user()->currentTeam->guidelines->load(['bullets', 'tickets']),
-            'teams' => Auth::user()->allTeams()->reject(fn($team) => $team->is(Auth::user()->currentTeam))
-                ->pluck('name', 'id')
+            'teams' => Auth::user()->allTeams()->reject(fn ($team) => $team->is(Auth::user()->currentTeam))
+                ->pluck('name', 'id'),
         ]);
     }
 
     /**
      * Create a new guideline
-     *
-     * @param CreateGuidelineRequest $request
-     * @return RedirectResponse
      */
     public function create(CreateGuidelineRequest $request): RedirectResponse
     {
@@ -46,10 +42,10 @@ class GuidelinesController extends Controller
         $guideline->team()->associate($request->user()->currentTeam);
         $guideline->save();
 
-        if (!empty($request->bullets)) {
+        if (! empty($request->bullets)) {
             $guideline->bullets()->createMany($request->bullets);
         }
-        if (!empty($request->tickets)) {
+        if (! empty($request->tickets)) {
             $guideline->tickets()->createMany($request->tickets);
         }
 
@@ -58,10 +54,6 @@ class GuidelinesController extends Controller
 
     /**
      * Update the given guideline
-     *
-     * @param Guideline $guideline
-     * @param UpdateGuidelineRequest $request
-     * @return RedirectResponse
      */
     public function update(Guideline $guideline, UpdateGuidelineRequest $request): RedirectResponse
     {
@@ -72,18 +64,16 @@ class GuidelinesController extends Controller
         $guideline->bullets()->whereNotIn('id', $bullets->pluck('id')->filter())->delete();
         $guideline->bullets()
             ->saveMany(
-                $bullets->map(fn($bullet) =>
-                array_key_exists('id', $bullet) ?
+                $bullets->map(fn ($bullet) => array_key_exists('id', $bullet) ?
                     GuidelineBullet::find($bullet['id'])->fill($bullet) :
                     new GuidelineBullet($bullet)
-            ));
+                ));
 
         $tickets = collect($request->tickets);
         $guideline->tickets()->whereNotIn('id', $tickets->pluck('id')->filter())->delete();
         $guideline->tickets()
             ->saveMany(
-                $tickets->map(fn($ticket) =>
-                array_key_exists('id', $ticket) ?
+                $tickets->map(fn ($ticket) => array_key_exists('id', $ticket) ?
                     GuidelineTicket::find($ticket['id'])->fill($ticket) :
                     new GuidelineTicket($ticket)
                 ));
@@ -94,8 +84,6 @@ class GuidelinesController extends Controller
     /**
      * Copy the guidelines from the team that is sent in the request
      *
-     * @param Request $request
-     * @return RedirectResponse
      * @throws AuthorizationException
      */
     public function copy(Request $request): RedirectResponse
@@ -115,16 +103,13 @@ class GuidelinesController extends Controller
             }
             $oldGuideline->save();
 
-            $newGuideline->tickets->each(fn (GuidelineTicket $transferTicket) =>
-                $transferTicket->replicate()->guideline()->associate($oldGuideline)->save()
+            $newGuideline->tickets->each(fn (GuidelineTicket $transferTicket) => $transferTicket->replicate()->guideline()->associate($oldGuideline)->save()
             );
 
-            $newGuideline->bullets->each(fn (GuidelineBullet $transferBullet) =>
-                $transferBullet->replicate()->guideline()->associate($oldGuideline)->save()
+            $newGuideline->bullets->each(fn (GuidelineBullet $transferBullet) => $transferBullet->replicate()->guideline()->associate($oldGuideline)->save()
             );
         });
 
         return back();
     }
-
 }

@@ -56,14 +56,14 @@
 </template>
 
 <script setup>
-import AppLayout from "@/Layouts/AppLayout";
-import Guideline from "@/Pages/Guidelines/Partials/Guideline";
-import Alert from "@/Components/Alert";
-import HeaderButton from "@/Components/HeaderButton";
+import AppLayout from "@/Layouts/AppLayout.vue";
+import Guideline from "@/Pages/Guidelines/Partials/Guideline.vue";
+import Alert from "@/Components/Alert.vue";
+import HeaderButton from "@/Components/HeaderButton.vue";
 import {DialogTitle} from "@headlessui/vue";
-import CenteredDialog from "@/Components/CenteredDialog";
-import JetButton from "@/Jetstream/Button";
-import JetSecondaryButton from "@/Jetstream/SecondaryButton";
+import CenteredDialog from "@/Components/CenteredDialog.vue";
+import JetButton from "@/Jetstream/Button.vue";
+import JetSecondaryButton from "@/Jetstream/SecondaryButton.vue";
 import {ref} from "vue";
 import {Inertia} from "@inertiajs/inertia";
 
