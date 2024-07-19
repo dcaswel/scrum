@@ -3,7 +3,7 @@ stages:
   - deploy
 
 .docker-php-template:
-    image: gitlab.goreact.com:4567/goreact/docker-containers/gr-tests-php:scrum-php81
+    image: gitlab.goreact.com:4567/goreact/docker-containers/gr-tests-php:latest
     stage: build
     tags:
         - docker
