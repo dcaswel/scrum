@@ -28,7 +28,7 @@ class ResetCards implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PresenceChannel('team.'.$this->teamId)
+            new PresenceChannel('team.'.$this->teamId),
         ];
     }
 }

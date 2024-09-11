@@ -21,8 +21,7 @@ class CardChosen implements ShouldBroadcast
     public function __construct(
         public User $user,
         public string|int|float $points
-    ) {
-    }
+    ) {}
 
     /**
      * Get the channels the event should broadcast on.
