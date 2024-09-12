@@ -49,7 +49,6 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { XIcon } from '@heroicons/vue/outline'
 

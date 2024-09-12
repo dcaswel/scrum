@@ -27,7 +27,6 @@
 
 <script setup>
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { defineProps } from 'vue'
 
 defineProps({ open: Boolean})
 
