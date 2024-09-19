@@ -42,10 +42,11 @@ class CreateNewUser implements CreatesNewUsers
      */
     protected function createTeam(User $user): void
     {
-        $user->ownedTeams()->save(Team::forceCreate([
+        $team = $user->ownedTeams()->save(Team::forceCreate([
             'user_id' => $user->id,
             'name' => explode(' ', $user->name, 2)[0]."'s Team",
             'personal_team' => true,
         ]));
+        $user->currentTeam()->associate($team)->save();
     }
 }

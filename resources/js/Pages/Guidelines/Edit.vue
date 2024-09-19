@@ -65,7 +65,7 @@ import CenteredDialog from "@/Components/CenteredDialog.vue";
 import JetButton from "@/Jetstream/Button.vue";
 import JetSecondaryButton from "@/Jetstream/SecondaryButton.vue";
 import {ref} from "vue";
-import {Inertia} from "@inertiajs/inertia";
+import {router} from "@inertiajs/vue3";
 
 const props = defineProps({
     guidelines: Array
@@ -73,7 +73,7 @@ const props = defineProps({
 
 const copyDialog = ref(false);
 
-const copyForm = Inertia.form({
+const copyForm = router.form({
     team: null
 });
 

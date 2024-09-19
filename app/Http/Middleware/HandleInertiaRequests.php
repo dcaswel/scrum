@@ -35,9 +35,10 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => [
+                'user' => array_merge($request->user()?->load('currentTeam')->toArray() ?? [], [
                     'permissions' => $request->user()?->teamPermissions($request->user()->currentTeam),
-                ],
+                    'all_teams' => $request->user()?->allTeams(),
+                ]),
             ],
             'flash' => [
                 'status' => fn () => $request->session()->get('status'),

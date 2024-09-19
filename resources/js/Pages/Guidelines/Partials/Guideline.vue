@@ -108,9 +108,9 @@ import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue';
 import JetInput from '@/Jetstream/Input.vue'
 import JetInputError from '@/Jetstream/InputError.vue'
 import JetLabel from '@/Jetstream/Label.vue'
-import {Inertia} from "@inertiajs/inertia";
 import {ref} from "vue";
 import Divider from "@/Components/Divider.vue";
+import {router} from "@inertiajs/vue3";
 
 const props = defineProps({
     guideline: Object,
@@ -119,7 +119,7 @@ const props = defineProps({
 
 let editing = ref(false);
 
-const form = Inertia.form({
+const form = router.form({
     score: props.score,
     description: props.guideline.description,
     bullets: props.guideline.bullets,

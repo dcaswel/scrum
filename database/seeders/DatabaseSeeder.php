@@ -17,8 +17,14 @@ class DatabaseSeeder extends Seeder
         $user = User::factory()
             ->withPersonalTeam()
             ->create(['name' => 'Derek Caswell', 'email' => 'dcaswell@goreact.com']);
-        Team::factory()->for($user, 'owner')
-            ->hasAttached(User::factory(10)->withPersonalTeam(), ['role' => 'member'])
+        $team = Team::factory()->for($user, 'owner')
+            ->hasAttached(
+                User::factory(10)
+                    ->withPersonalTeam()
+                    ->state(fn(array $attributes, Team $team) => ['current_team_id' => $team->id]),
+                ['role' => 'member']
+            )
             ->create(['name' => 'Copy, Paste, Repeat', 'personal_team' => false]);
+        $user->currentTeam()->associate($team)->save();
     }
 }

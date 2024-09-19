@@ -17,7 +17,8 @@ class EstimationController extends Controller
 {
     public function index(Request $request): InertiaResponse
     {
-        $guidelines = $request->user()->currentTeam->guidelines()->orderByRaw('CONVERT(score, SIGNED)')->with(['bullets', 'tickets'])->get();
+        $guidelines = $request->user()->currentTeam->guidelines()
+            ->orderByRaw('CONVERT(score, SIGNED)')->with(['bullets', 'tickets'])->get();
 
         return Inertia::render('Estimation', [
             'team_id' => $request->user()->currentTeam->getKey(),
