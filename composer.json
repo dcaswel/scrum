@@ -6,7 +6,6 @@
     "require": {
         "php": "^8.2",
         "aws/aws-sdk-php": "^3.209",
-        "doctrine/dbal": "^3.5",
         "inertiajs/inertia-laravel": "^1.0",
         "laravel/framework": "^11.22",
         "laravel/jetstream": "^5.0",
