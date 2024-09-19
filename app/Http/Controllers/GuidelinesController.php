@@ -12,6 +12,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -24,7 +25,7 @@ class GuidelinesController extends Controller
      */
     public function edit(): Response
     {
-        $this->authorize('manageGuidelines', Auth::user()->currentTeam);
+        Gate::authorize('manageGuidelines', Auth::user()->currentTeam);
 
         return Inertia::render('Guidelines/Edit', [
             'guidelines' => Auth::user()->currentTeam->guidelines->load(['bullets', 'tickets']),
@@ -89,7 +90,7 @@ class GuidelinesController extends Controller
     public function copy(Request $request): RedirectResponse
     {
         $otherTeam = Team::find($request->team);
-        $this->authorize('manageGuidelines', $otherTeam);
+        Gate::authorize('manageGuidelines', $otherTeam);
 
         $currentTeam = Auth::user()->currentTeam;
         $otherTeam->guidelines->each(function (Guideline $newGuideline) use ($currentTeam) {
