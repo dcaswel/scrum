@@ -11,6 +11,7 @@ use Inertia\Testing\AssertableInertia;
 test('The edit form can load', function () {
     $team = Team::factory()->create();
     $user = User::factory()->hasAttached($team, ['role' => 'member'])->withPersonalTeam()->create();
+    $user->switchTeam($user->personalTeam());
 
     $guidelines = Guideline::factory(2)->for($user->personalTeam())->hasTickets()->hasBullets()->create();
     login($user)->get('/guidelines/edit')
@@ -38,6 +39,7 @@ test('A User must have permission to edit the team guidelines', function () {
 
 it('Can create a basic guideline with just a description', function () {
     $user = User::factory()->withPersonalTeam()->create();
+    $user->switchTeam($user->personalTeam());
     $request = CreateGuidelineRequest::factory()->create();
     login($user)->from(route('guidelines.edit'))->post(route('guidelines.create'), $request)
         ->assertRedirect(route('guidelines.edit'));
@@ -47,6 +49,7 @@ it('Can create a basic guideline with just a description', function () {
 
 it('Can create a guideline with bullets', function () {
     $user = User::factory()->withPersonalTeam()->create();
+    $user->switchTeam($user->personalTeam());
     $request = CreateGuidelineRequest::factory()->withNewBullets(1)->create();
     login($user)->from(route('guidelines.edit'))->post(route('guidelines.create'), $request)
         ->assertRedirect(route('guidelines.edit'));
@@ -59,6 +62,7 @@ it('Can create a guideline with bullets', function () {
 
 it('Can create a guideline with tickets', function () {
     $user = User::factory()->withPersonalTeam()->create();
+    $user->switchTeam($user->personalTeam());
     $request = CreateGuidelineRequest::factory()->withNewTickets(1)->create();
     login($user)->from(route('guidelines.edit'))->post(route('guidelines.create'), $request)
         ->assertRedirect(route('guidelines.edit'));
@@ -191,6 +195,7 @@ test('A user cannot update a guideline without permission', function () {
 
 it('Can copy the guidelines from another team', function () {
     $user = User::factory()->withPersonalTeam()->create();
+    $user->switchTeam($user->personalTeam());
     Guideline::factory()->score(Points::Half)->for($user->personalTeam())->hasTickets()->create();
     $otherTeam = Team::factory()->hasAttached($user, ['role' => 'scrum_master'])->create();
     $halfGuideline = Guideline::factory()->score(Points::Half)->for($otherTeam)->hasTickets()->create();

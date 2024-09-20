@@ -11,6 +11,7 @@ use Inertia\Testing\AssertableInertia;
 
 test('Showing the estimation page', function () {
     $user = User::factory()->withPersonalTeam()->create();
+    $user->switchTeam($user->personalTeam());
     $guidelines = Guideline::factory(2)->for($user->personalTeam())->hasBullets()->hasTickets()
         ->state(new Sequence(['score' => Points::One->value], ['score' => Points::Two->value]))
         ->create();
@@ -32,6 +33,7 @@ test('Showing the estimation page', function () {
 
 test('Showing the runner', function () {
     $user = User::factory()->withPersonalTeam()->create();
+    $user->switchTeam($user->personalTeam());
     login($user)->get(route('runner'))
         ->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Runner')
@@ -63,6 +65,7 @@ it('Can reset the scores', function () {
     Event::fake();
     $user = User::factory()->withPersonalTeam()->create(['points' => Points::One]);
     $team = $user->personalTeam();
+    $user->switchTeam($team);
     $user2 = User::factory()->hasAttached($team, ['role' => 'member'])->create(['points' => Points::Two]);
     $user2->switchTeam($team);
 
